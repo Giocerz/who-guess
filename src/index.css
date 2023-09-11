@@ -1,0 +1,30 @@
+* {
+  box-sizing: border-box;
+}
+
+:root {
+  width: 100%;
+  min-height: 100vh;
+  padding-top: 0;
+  margin: 0;
+  background-color: #ffffff;
+}
+
+@keyframes root-back-gradient {
+  0% {
+    background-position: 0% 0%;
+  }
+  50% {
+    background-position: 100% 100%;
+  }
+  100% {
+    background-position: 0% 0%;
+  }
+  
+}
+
+body {
+  width: 100%;
+  margin: 0;
+  font-family: Cagliostro, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}

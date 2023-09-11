@@ -1,0 +1,152 @@
+ /* Proporcion de 10/21 */
+
+ .character-container {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+ }
+
+ .head {
+    width: 100%;
+    height: 52%;
+    position: relative;
+    z-index: 10;
+ }
+
+ .face {
+    width: 60%;
+    height: 55%;
+    background: radial-gradient(#e7a071, 80%, #a57048);
+    border-radius: 50% 50% 100% 100%;
+    border: 2px solid black;
+    padding: 5% 16%;
+    display: flex;
+    margin-top: -50%;
+    margin-left: auto;
+    margin-right: auto;
+    justify-content: space-between;
+ }
+
+ .hair {
+    width: 100%;
+    height: 90%;
+    background-color: purple;
+    border-radius: 1000px;
+ }
+
+ .eyes {
+    width: 18%;
+    height: 12%;
+    margin-top: 60%;
+    border-radius: 1000px;
+    background-color: black;
+    animation: aumentar 8s infinite;
+    animation-delay: 2s;
+ }
+
+ @keyframes aumentar {
+    2% {
+       margin-top: 70%;
+       height: 0;
+    }
+
+    10% {
+       height: 12%;
+       margin-top: 60%;
+    }
+ }
+
+ .trunk {
+    width: 100%;
+    height: 32%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+ }
+
+ .neck {
+    width: 25%;
+    height: 37%;
+    background-color: #e7a071;
+    margin-top: -12%;
+    border-radius: 1000px;
+    border: 2px solid black;
+    z-index: 9;
+ }
+
+ .shirt {
+    width: 70%;
+    height: 100%;
+    margin-top: -16%;
+    padding-top: 25%;
+    background-color: white;
+    border-radius: 1000px;
+    border: 2px solid black;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    z-index: 8;
+ }
+
+ .shirt::before,
+ .shirt::after {
+    content: '';
+    width: 28%;
+    height: 40%;
+    border-radius: 50%;
+    background-color: #e7a071;
+    border: 2px solid black;
+ }
+
+ .legs {
+    width: 100%;
+    height: 13%;
+    display: flex;
+    justify-content: center;
+ }
+
+ .leg {
+    width: 40%;
+    height: 169%;
+    background-color: #2a5373;
+    margin-top: -20%;
+    border-radius: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    border-left: 2px solid black;
+    border-right: 2px solid black;
+ }
+
+ .leg.left {
+    margin-right: -13%;
+ }
+
+ /*
+ .leg::before {
+   content: '';
+   width: 80%;
+   height: 30%;
+   background-color: white;
+   border-radius: 50%;
+   z-index: 7;
+ } */
+
+ .shoes {
+    height: 8%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin-top: -15%;
+ }
+
+ .shoe {
+    height: 100%;
+    width: 30%;
+    background-color: white;
+    border-radius: 50%;
+    border: 2px solid black;
+ }
