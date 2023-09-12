@@ -3,18 +3,8 @@ import { Character } from './Components/Character/Character'
 import './App.css'
 import { SelectionButtons } from './Components/SelectionButtons/SelectionButtons';
 import { ScoreBoard } from './Components/ScoreBoard/ScoreBoard';
-
-const COLORS_LIST = [
-  "#6f2dbd",
-  "#800e13",
-  "#fe7f2d",
-  "#00509d",
-  "#7ae582",
-  "#f15bb5",
-  "#636940",
-  "#f7e8a4",
-  "#9e6240"
-];
+import { COLORS_LIST } from './logic/constants';
+import { HistoryGame } from './Components/HistoryGame/HistoryGame';
 
 const FEATURES_COLOR = {
   'hair': 'black',
@@ -66,36 +56,7 @@ function App() {
           <ScoreBoard />
           <SelectionButtons handleButton={handle} rows={9} cols={4} />
         </div>
-        <div className='history-container'>
-          <article className='history-card'>
-            <div className='history-card-character-container'>
-              <Character colors={FEATURES_COLOR} />
-            </div>
-            <aside className='correct-stats-card'><span className='correct-span green'>2</span><span className='correct-span red'>0</span></aside>
-          </article>
-          <article className='history-card'>
-          </article>
-          <article className='history-card'>
-          </article>
-          <article className='history-card'>
-          </article>
-          <article className='history-card'>
-          </article>
-          <article className='history-card'>
-          </article>
-          <article className='history-card'>
-          </article>
-          <article className='history-card'>
-          </article>
-          <article className='history-card'>
-          </article>
-          <article className='history-card'>
-          </article>
-          <article className='history-card'>
-          </article>
-          <article className='history-card'>
-          </article>
-        </div>
+        <HistoryGame />
       </main>
     </>
   )

@@ -31,39 +31,3 @@
   .btn:hover { 
     transform: scale(1.4);
   }
-  
-  .btn.one {
-    background-color: #6f2dbd;
-  }
-  
-  .btn.two {
-    background-color: #800e13;
-  }
-  
-  .btn.three {
-    background-color: #fe7f2d;
-  }
-  
-  .btn.four {
-    background-color: #00509d;
-  }
-  
-  .btn.five {
-    background-color: #7ae582;
-  }
-  
-  .btn.six {
-    background-color: #f15bb5;
-  }
-  
-  .btn.seven {
-    background-color: #636940;
-  }
-  
-  .btn.eight {
-    background-color: #f7e8a4;
-  }
-  
-  .btn.nine {
-    background-color: #9e6240;
-  }

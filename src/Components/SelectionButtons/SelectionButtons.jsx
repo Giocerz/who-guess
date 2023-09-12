@@ -1,6 +1,5 @@
 import './SelectionButtons.css'
-
-const COLOR_CLASS = ['one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine'];
+import { COLORS_LIST } from '../../logic/constants';
 
 export const SelectionButtons = ({ handleButton, rows, cols }) => {
 
@@ -9,7 +8,7 @@ export const SelectionButtons = ({ handleButton, rows, cols }) => {
         for (let row = 0; row < rows; row++) {
             for (let col = 0; col < cols; col++) {
                 buttons.push(
-                    <button key={`btn-${row}-${col}`} className={`btn ${COLOR_CLASS[row]}`} onClick={() => handleButton(row, col)}></button>
+                    <button key={`btn-${row}-${col}`} className='btn' style={{ backgroundColor: COLORS_LIST[row] }} onClick={() => handleButton(row, col)}></button>
                 )
             }
         }
