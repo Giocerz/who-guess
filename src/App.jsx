@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Character } from './Components/Character/Character'
 import './App.css'
 import { SelectionButtons } from './Components/SelectionButtons/SelectionButtons';
@@ -20,12 +20,44 @@ function App() {
   const [featuresColor, setFeaturesColor] = useState(FEATURES_COLOR);
   const [actualAttemp, setActualAttemp] = useState(POSITIONS);
   const [gameAttemps, setGameAttemps] = useState(0);
-  const [historyAttemps, setHistoryAttemps] = useState(0);
+  const [historyAttemps, setHistoryAttemps] = useState(new Array(12).fill(0));
+  const [guessLeads, setGuessLeads] = useState(null);
+
+  useEffect(() => {
+    if (gameAttemps === 0) return;
+
+    const comparativeGame = () => {
+      const CORRECT = [1,2,3,4];
+      let fameIndexes = [];
+      let fame = 0;
+      let point = 0;
+      for(let i = 0; i < actualAttemp.length; i++) {
+        for(let j = 0; j < CORRECT.length; j++) {
+          if(actualAttemp[i] === CORRECT[j]) {
+            if(i === j) {
+              fame++;
+              fameIndexes.push(j);
+            }
+          }
+        }
+      }
+      if(fameIndexes !== 4){for(let i = 0; i < actualAttemp.length; i++) {
+        for(let j = 0; j < CORRECT.length; j++) {
+          if(actualAttemp[i] === CORRECT[j] && !fameIndexes.some((value) => j===value)) {
+            point++;
+          }
+        }
+      }}
+      
+      setGuessLeads({ fames: fame, points: point})
+    }
+    comparativeGame();
+  } ,[gameAttemps])
 
   const handle = (row, col) => {
     const actual = [...actualAttemp];
     actual[col] = row + 1;
-    const colorActually = { ...featuresColor}
+    const colorActually = { ...featuresColor }
     if (col === 0) {
       colorActually.hair = COLORS_LIST[row];
     } else if (col === 1) {
@@ -40,6 +72,11 @@ function App() {
     console.log(actual)
   }
 
+  const resetGame = () => {
+    setFeaturesColor(FEATURES_COLOR);
+    setGameAttemps(0);
+  }
+
   return (
     <>
       <header>
@@ -49,11 +86,14 @@ function App() {
       </header>
       <main>
         <div className='container'>
-          <div className='help-modal'></div>
           <div className='main-character-container'>
             <Character colors={featuresColor} />
           </div>
-          <ScoreBoard />
+
+          <div className='mid-container'>
+            <ScoreBoard attemps={gameAttemps} leads={guessLeads}/>
+            <button className='check-turn-btn' onClick={() =>  setGameAttemps(gameAttemps + 1)}>Check</button>
+          </div>
           <SelectionButtons handleButton={handle} rows={9} cols={4} />
         </div>
         <HistoryGame />

@@ -1,7 +1,6 @@
 import './Character.css'
 
 export const Character = ({ colors}) => {
-    console.log('Entra')
     return (
         <div className="character-container">
             <div className="head">

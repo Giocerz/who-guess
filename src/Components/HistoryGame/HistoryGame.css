@@ -17,11 +17,6 @@
     border-radius: 10px;
     background: linear-gradient(45deg, #2b2e42, #353953, #2b2e42);
     border-bottom: 1px solid #b0afb0;
-    transition: border-color .3s ease;
-}
-
-.history-card:hover {
-    border-color: #99d98c;
 }
 
 .history-card-character-container {

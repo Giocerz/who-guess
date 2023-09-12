@@ -58,3 +58,27 @@ header h1 {
     height: 210px;
   }
 }
+
+.mid-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
+
+.check-turn-btn {
+  cursor: pointer;
+  width: 75%;
+  height: 50px;
+  background-color: #80ed99;
+  color: #1b263b;
+  font-size: 1.3em;
+  border-radius: 10px;
+  border: none;
+  transition: all .3s ease;
+}
+
+.check-turn-btn:hover {
+  box-shadow: 0px 4px 4px #fcbf49;
+}
