@@ -67,11 +67,11 @@ header h1 {
   gap: 10px;
 }
 
-.check-turn-btn {
+.check-turn-btn, .reset-game-btn {
   cursor: pointer;
+  font-family: Cagliostro;
   width: 75%;
   height: 50px;
-  background-color: #80ed99;
   color: #1b263b;
   font-size: 1.3em;
   border-radius: 10px;
@@ -79,6 +79,14 @@ header h1 {
   transition: all .3s ease;
 }
 
-.check-turn-btn:hover {
+.check-turn-btn {
+  background-color: #80ed99;
+}
+
+.check-turn-btn:hover, .reset-game-btn:hover {
   box-shadow: 0px 4px 4px #fcbf49;
+}
+
+.reset-game-btn {
+  background-color: #a7c957;
 }

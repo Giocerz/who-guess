@@ -5,6 +5,8 @@ import { SelectionButtons } from './Components/SelectionButtons/SelectionButtons
 import { ScoreBoard } from './Components/ScoreBoard/ScoreBoard';
 import { COLORS_LIST } from './logic/constants';
 import { HistoryGame } from './Components/HistoryGame/HistoryGame';
+import { useCompareGame } from './hooks/useCompareGame';
+import { useGenerateRandomGame } from './hooks/useGenerateRandomGame';
 
 const FEATURES_COLOR = {
   'hair': 'black',
@@ -13,46 +15,31 @@ const FEATURES_COLOR = {
   'shoes': 'white'
 };
 
-const POSITIONS = [0, 0, 0, 0];
-
-
 function App() {
   const [featuresColor, setFeaturesColor] = useState(FEATURES_COLOR);
-  const [actualAttemp, setActualAttemp] = useState(POSITIONS);
+  const [actualAttemp, setActualAttemp] = useState([0, 0, 0, 0]);
   const [gameAttemps, setGameAttemps] = useState(0);
   const [historyAttemps, setHistoryAttemps] = useState(new Array(12).fill(0));
-  const [guessLeads, setGuessLeads] = useState(null);
-
+  const { correctRandomArr } = useGenerateRandomGame();
+  const { guessLeads, setGuessLeads } = useCompareGame(actualAttemp, gameAttemps, correctRandomArr);
+  
+  console.log({correctRandomArr})
   useEffect(() => {
-    if (gameAttemps === 0) return;
-
-    const comparativeGame = () => {
-      const CORRECT = [1,2,3,4];
-      let fameIndexes = [];
-      let fame = 0;
-      let point = 0;
-      for(let i = 0; i < actualAttemp.length; i++) {
-        for(let j = 0; j < CORRECT.length; j++) {
-          if(actualAttemp[i] === CORRECT[j]) {
-            if(i === j) {
-              fame++;
-              fameIndexes.push(j);
-            }
-          }
-        }
+    if (gameAttemps > 0 && gameAttemps < 13) {
+      const arrHistory = [...historyAttemps];
+      arrHistory[gameAttemps - 1] = {
+        features: {
+          hair: featuresColor.hair,
+          shirt: featuresColor.shirt,
+          legs: featuresColor.legs,
+          shoes: featuresColor.shoes
+        },
+        fames: guessLeads?.fames,
+        points: guessLeads?.points
       }
-      if(fameIndexes !== 4){for(let i = 0; i < actualAttemp.length; i++) {
-        for(let j = 0; j < CORRECT.length; j++) {
-          if(actualAttemp[i] === CORRECT[j] && !fameIndexes.some((value) => j===value)) {
-            point++;
-          }
-        }
-      }}
-      
-      setGuessLeads({ fames: fame, points: point})
+      setHistoryAttemps(arrHistory);
     }
-    comparativeGame();
-  } ,[gameAttemps])
+  }, [guessLeads])
 
   const handle = (row, col) => {
     const actual = [...actualAttemp];
@@ -75,6 +62,9 @@ function App() {
   const resetGame = () => {
     setFeaturesColor(FEATURES_COLOR);
     setGameAttemps(0);
+    setGuessLeads(null);
+    setActualAttemp([0, 0, 0, 0]);
+    setHistoryAttemps(new Array(12).fill(0))
   }
 
   return (
@@ -91,12 +81,13 @@ function App() {
           </div>
 
           <div className='mid-container'>
-            <ScoreBoard attemps={gameAttemps} leads={guessLeads}/>
-            <button className='check-turn-btn' onClick={() =>  setGameAttemps(gameAttemps + 1)}>Check</button>
+            <ScoreBoard attemps={gameAttemps} leads={guessLeads} />
+            <button className='check-turn-btn' onClick={() => setGameAttemps(gameAttemps + 1)}>Check</button>
+            <button className='reset-game-btn' onClick={resetGame}>Reset game</button>
           </div>
           <SelectionButtons handleButton={handle} rows={9} cols={4} />
         </div>
-        <HistoryGame />
+        <HistoryGame historical={historyAttemps} />
       </main>
     </>
   )

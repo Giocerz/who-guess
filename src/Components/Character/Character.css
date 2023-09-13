@@ -47,6 +47,10 @@
     animation-delay: 2s;
  }
 
+ .eyes.no-anim {
+   animation: none;
+ }
+
  @keyframes aumentar {
     2% {
        margin-top: 70%;

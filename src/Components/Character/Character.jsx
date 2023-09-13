@@ -1,14 +1,14 @@
 import './Character.css'
 
-export const Character = ({ colors}) => {
+export const Character = ({ colors, anim = ''}) => {
     return (
         <div className="character-container">
             <div className="head">
                 <div className="hair" style={{ backgroundColor: colors['hair'] }}>
                 </div>
                 <div className="face">
-                    <div className="eyes"></div>
-                    <div className="eyes"></div>
+                    <div className={`eyes ${anim}`}></div>
+                    <div className={`eyes ${anim}`}></div>
                 </div>
             </div>
             <div className="trunk">

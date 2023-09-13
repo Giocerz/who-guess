@@ -8,7 +8,7 @@ export const SelectionButtons = ({ handleButton, rows, cols }) => {
         for (let row = 0; row < rows; row++) {
             for (let col = 0; col < cols; col++) {
                 buttons.push(
-                    <button key={`btn-${row}-${col}`} className='btn' style={{ backgroundColor: COLORS_LIST[row] }} onClick={() => handleButton(row, col)}></button>
+                    <button key={`btn-selection-${row}-${col}`} title={`btn-selection-${row}-${col}`} className='btn' style={{ backgroundColor: COLORS_LIST[row] }} onClick={() => handleButton(row, col)}></button>
                 )
             }
         }
