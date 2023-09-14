@@ -11,7 +11,7 @@ import { generateRandomGame } from './logic/generateRandomGame';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css'
 
-const FEATURES_COLOR = {
+const INITIAL_FEATURES_COLOR = {
   'hair': 'black',
   'shirt': 'white',
   'legs': '#2a5373',
@@ -19,14 +19,13 @@ const FEATURES_COLOR = {
 };
 
 function App() {
-  const [featuresColor, setFeaturesColor] = useState(FEATURES_COLOR);
+  const [featuresColor, setFeaturesColor] = useState(INITIAL_FEATURES_COLOR);
   const [actualAttemp, setActualAttemp] = useState([0, 0, 0, 0]);
   const [gameAttemps, setGameAttemps] = useState(0);
   const [historyAttemps, setHistoryAttemps] = useState(new Array(MAX_ATTEMPS).fill(0));
   const [correctRandomArr, setCorrectRandomArr] = useState(generateRandomGame());
   const { guessLeads, finishGame, setGuessLeads, setFinishGame } = useCompareGame(actualAttemp, gameAttemps, correctRandomArr);
 
-  console.log({ correctRandomArr })
   useEffect(() => {
     if (gameAttemps > 0 && gameAttemps < MAX_ATTEMPS + 1) {
       const arrHistory = [...historyAttemps];
@@ -108,7 +107,7 @@ function App() {
   }
 
   const resetGame = () => {
-    setFeaturesColor(FEATURES_COLOR);
+    setFeaturesColor(INITIAL_FEATURES_COLOR);
     setGameAttemps(0);
     setGuessLeads(null);
     setActualAttemp([0, 0, 0, 0]);
@@ -126,19 +125,19 @@ function App() {
       </header>
       <main>
         <div className='container'>
-          <div className='main-character-container'>
+          <article className='main-character-container'>
             <Character colors={featuresColor} />
-          </div>
+          </article>
 
-          <div className='mid-container'>
+          <section className='mid-container'>
             <ScoreBoard attemps={gameAttemps} leads={guessLeads} />
             <button className='check-turn-btn' onClick={checkAttemp}>Check</button>
-            <button className='reset-game-btn' onClick={resetGame}>Reset game</button>
-          </div>
+            <button className='reset-game-btn' onClick={(resetGame)}>Reset game</button>
+          </section>
           { finishGame === null ? <SelectionButtons handleButton={handle} rows={10} cols={4} /> : null }
         </div>
         { finishGame === null ? <HistoryGame historical={historyAttemps} /> : null }
-        <FinishGameModal finishGame={finishGame} correct={correctRandomArr} historical={historyAttemps} resetGame={resetGame} />
+        { finishGame === null ? null : <FinishGameModal finishGame={finishGame} correct={correctRandomArr} historical={historyAttemps} resetGame={resetGame} />}
         <ToastContainer
           position='bottom-center'
           autoClose={2000}

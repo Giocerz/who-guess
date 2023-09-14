@@ -21,6 +21,11 @@
 .score-number {
     font-size: 3em;
     font-weight: 700;
+    animation: score-number-entry .5s ease;
+}
+
+@keyframes score-number-entry {
+    20% {transform: scale(1.7);}
 }
 
 .score-description.red, .score-number.red {

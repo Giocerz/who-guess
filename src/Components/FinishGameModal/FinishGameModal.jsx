@@ -2,10 +2,15 @@ import { Character } from "../Character/Character";
 import { COLORS_LIST } from "../../logic/constants";
 import "./FinishGameModal.css"
 import { HistoryGame } from "../HistoryGame/HistoryGame";
+import { useEffect } from "react";
 
 export const FinishGameModal = ({ finishGame, correct, historical, resetGame }) => {
-    if (finishGame === null) return;
-
+    useEffect(() => {
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth', // Para una animación suave (opcional)
+          });
+    }, [])
     return (
         <section className='finishGame-modal'>
             <div className="finishGame-container">
@@ -16,10 +21,10 @@ export const FinishGameModal = ({ finishGame, correct, historical, resetGame }) 
                 <div className="correct-character-container">
                     <Character 
                         colors={{
-                            hair: COLORS_LIST[correct[0]],
-                            shirt: COLORS_LIST[correct[1]],
-                            legs: COLORS_LIST[correct[2]],
-                            shoes: COLORS_LIST[correct[3]]
+                            hair: COLORS_LIST[correct[0] - 1],
+                            shirt: COLORS_LIST[correct[1] - 1],
+                            legs: COLORS_LIST[correct[2] - 1],
+                            shoes: COLORS_LIST[correct[3] - 1]
                         }} 
                         anim='no-anim' />
                 </div>
