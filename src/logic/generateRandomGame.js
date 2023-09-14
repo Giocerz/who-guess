@@ -3,7 +3,6 @@ const getRandomNumber = (len) => {
 }
 
 export function generateRandomGame() {
-    console.log('hola')
     const numbersOps = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
     const randomArr = []
     for (let i = 0; i < 4; i++) {

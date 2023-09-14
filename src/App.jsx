@@ -59,7 +59,6 @@ function App() {
     }
     setFeaturesColor(colorActually);
     setActualAttemp(actual);
-    console.log(actual)
   }
 
   const repeatNumberInArray = (arr) => {
