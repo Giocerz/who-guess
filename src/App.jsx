@@ -76,7 +76,8 @@ function App() {
     if (actualAttemp.some((value) => value === 0)) {
       if (!toast.isActive('select_new_colors')) {
         toast.warning('Please set color each feature', {
-          toastId: 'select_new_colors'
+          toastId: 'select_new_colors',
+          icon: '😇'
         });
       }
       return
@@ -85,17 +86,22 @@ function App() {
     if (repeatNumberInArray(actualAttemp)) {
       if (!toast.isActive('select_new_colors')) {
         toast.warning("Don't repeat colors", { 
-          toastId: 'repeat_colors'
+          toastId: 'repeat_colors',
+          icon: '🤬'
         });
       }
       return
     }
 
     if(gameAttemps + 1 === MAX_ATTEMPS - 3) {
-      toast.warning("Last 3 attempts");
+      toast.warning("Last 3 attempts", {
+        icon: '😰'
+      });
     }
     if(gameAttemps + 1 === MAX_ATTEMPS - 1) {
-      toast.warning("Last attempt");
+      toast.warning("Last attempt", {
+        icon: '😱'
+      });
     }
 
     setGameAttemps(gameAttemps + 1)
@@ -115,7 +121,7 @@ function App() {
     <>
       <header>
         <div className='title-container'>
-          <h1><span className='title-one'>Guess</span> <span className='title-two'>Who?</span></h1>
+          <h1><span className='title-one'>G    uess</span> <span className='title-two'>Who?</span></h1>
         </div>
       </header>
       <main>
