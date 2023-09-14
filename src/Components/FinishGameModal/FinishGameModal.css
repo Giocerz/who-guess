@@ -1,0 +1,41 @@
+.finishGame-modal {
+    position: absolute;
+    width: 100vw;
+    min-height: 100vh;
+    top: 0;
+    left: 0;
+    background-color: rgba(0, 0, 0, 0.7);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 40px;
+    z-index: 10;
+    animation: entry .4s ease;
+}
+
+@keyframes entry {
+    0% {opacity: 0;} 
+}
+
+.finishGame-modal > h2 {
+    text-align: center;
+    padding: 0;
+    margin: 0;
+}
+
+.correct-character-container {
+    width: 100px;
+    height: 210px;
+}
+
+.finishGame-footer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.new-game {
+    background-color: #a2d2ff;
+    width: 200px;
+}

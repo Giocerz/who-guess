@@ -1,3 +1,4 @@
+import { MAX_ATTEMPS } from '../../logic/constants'
 import './ScoreBoard.css'
 
 export const ScoreBoard = ({ leads, attemps }) => {
@@ -8,7 +9,7 @@ export const ScoreBoard = ({ leads, attemps }) => {
             {attemps === 0 ? <span className='score-number red'>-</span> : <span className='score-number red'>{leads?.points}</span> }
             <span className='score-description red'>Right color, wrong feature</span>
             <span></span>
-            <span className='score-attemps'>Attemps {attemps}/12</span>
+            <span className='score-attemps'>Attemps {attemps}/{MAX_ATTEMPS}</span>
         </article>
     )
 }

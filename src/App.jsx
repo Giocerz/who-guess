@@ -3,10 +3,13 @@ import { Character } from './Components/Character/Character'
 import './App.css'
 import { SelectionButtons } from './Components/SelectionButtons/SelectionButtons';
 import { ScoreBoard } from './Components/ScoreBoard/ScoreBoard';
-import { COLORS_LIST } from './logic/constants';
+import { FinishGameModal } from './Components/FinishGameModal/FinishGameModal';
 import { HistoryGame } from './Components/HistoryGame/HistoryGame';
+import { COLORS_LIST, MAX_ATTEMPS } from './logic/constants';
 import { useCompareGame } from './hooks/useCompareGame';
-import { useGenerateRandomGame } from './hooks/useGenerateRandomGame';
+import { generateRandomGame } from './logic/generateRandomGame';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css'
 
 const FEATURES_COLOR = {
   'hair': 'black',
@@ -19,13 +22,13 @@ function App() {
   const [featuresColor, setFeaturesColor] = useState(FEATURES_COLOR);
   const [actualAttemp, setActualAttemp] = useState([0, 0, 0, 0]);
   const [gameAttemps, setGameAttemps] = useState(0);
-  const [historyAttemps, setHistoryAttemps] = useState(new Array(12).fill(0));
-  const { correctRandomArr } = useGenerateRandomGame();
-  const { guessLeads, setGuessLeads } = useCompareGame(actualAttemp, gameAttemps, correctRandomArr);
-  
-  console.log({correctRandomArr})
+  const [historyAttemps, setHistoryAttemps] = useState(new Array(MAX_ATTEMPS).fill(0));
+  const [correctRandomArr, setCorrectRandomArr] = useState(generateRandomGame());
+  const { guessLeads, finishGame, setGuessLeads, setFinishGame } = useCompareGame(actualAttemp, gameAttemps, correctRandomArr);
+
+  console.log({ correctRandomArr })
   useEffect(() => {
-    if (gameAttemps > 0 && gameAttemps < 13) {
+    if (gameAttemps > 0 && gameAttemps < MAX_ATTEMPS + 1) {
       const arrHistory = [...historyAttemps];
       arrHistory[gameAttemps - 1] = {
         features: {
@@ -38,6 +41,7 @@ function App() {
         points: guessLeads?.points
       }
       setHistoryAttemps(arrHistory);
+
     }
   }, [guessLeads])
 
@@ -59,12 +63,52 @@ function App() {
     console.log(actual)
   }
 
+  const repeatNumberInArray = (arr) => {
+    for (let i = 0; i < arr.length - 1; i++) {
+      for (let j = i + 1; j < arr.length; j++) {
+        if (arr[i] === arr[j]) return true;
+      }
+    }
+    return false
+  }
+
+  const checkAttemp = () => {
+    if (actualAttemp.some((value) => value === 0)) {
+      if (!toast.isActive('select_new_colors')) {
+        toast.warning('Please set color each feature', {
+          toastId: 'select_new_colors'
+        });
+      }
+      return
+    }
+
+    if (repeatNumberInArray(actualAttemp)) {
+      if (!toast.isActive('select_new_colors')) {
+        toast.warning("Don't repeat colors", { 
+          toastId: 'repeat_colors'
+        });
+      }
+      return
+    }
+
+    if(gameAttemps + 1 === MAX_ATTEMPS - 3) {
+      toast.warning("Last 3 attempts");
+    }
+    if(gameAttemps + 1 === MAX_ATTEMPS - 1) {
+      toast.warning("Last attempt");
+    }
+
+    setGameAttemps(gameAttemps + 1)
+  }
+
   const resetGame = () => {
     setFeaturesColor(FEATURES_COLOR);
     setGameAttemps(0);
     setGuessLeads(null);
     setActualAttemp([0, 0, 0, 0]);
-    setHistoryAttemps(new Array(12).fill(0))
+    setHistoryAttemps(new Array(MAX_ATTEMPS).fill(0));
+    setCorrectRandomArr(generateRandomGame());
+    setFinishGame(null);
   }
 
   return (
@@ -82,12 +126,20 @@ function App() {
 
           <div className='mid-container'>
             <ScoreBoard attemps={gameAttemps} leads={guessLeads} />
-            <button className='check-turn-btn' onClick={() => setGameAttemps(gameAttemps + 1)}>Check</button>
+            <button className='check-turn-btn' onClick={checkAttemp}>Check</button>
             <button className='reset-game-btn' onClick={resetGame}>Reset game</button>
           </div>
-          <SelectionButtons handleButton={handle} rows={9} cols={4} />
+          { finishGame === null ? <SelectionButtons handleButton={handle} rows={10} cols={4} /> : null }
         </div>
-        <HistoryGame historical={historyAttemps} />
+        { finishGame === null ? <HistoryGame historical={historyAttemps} /> : null }
+        <FinishGameModal finishGame={finishGame} correct={correctRandomArr} historical={historyAttemps} resetGame={resetGame} />
+        <ToastContainer
+          position='bottom-center'
+          autoClose={2000}
+          theme='dark'
+          limit={3}
+        >
+        </ToastContainer>
       </main>
     </>
   )

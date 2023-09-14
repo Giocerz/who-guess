@@ -1,18 +1,14 @@
 import './HistoryGame.css'
 import { Character } from "../Character/Character";
+import { MAX_ATTEMPS } from '../../logic/constants';
 
-const FEATURES_COLOR = {
-    'hair': 'black',
-    'shirt': 'white',
-    'legs': '#2a5373',
-    'shoes': 'white'
-};
-
-export const HistoryGame = ({ historical }) => {
+export const HistoryGame = ({ historical, viewOnlyAttemps = false, truncLastAttempCard = true }) => {
     return (
         <div className='history-container'>
             {historical && historical.map((values, index) => {
+                if(truncLastAttempCard && index === MAX_ATTEMPS - 1 ) return;
                 if (values === 0) {
+                    if(viewOnlyAttemps) return;
                     return (
                         <article key={`card-${index}`} className='history-card'>
                         </article>
