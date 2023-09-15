@@ -1,8 +1,8 @@
 .score-board {
     width: 240px;
-    height: 180px;
+    min-height: 180px;
     display: grid;
-    grid-template: 'a b' 1fr 'c d' 1fr 'e e' 1fr / 20% 80%;
+    grid-template: 'a b' 1fr 'c d' 1fr 'e e' auto / 20% 80%;
     text-align: center;
     align-items: center;
     background: linear-gradient(45deg, #2b2e42, #353953, #2b2e42);

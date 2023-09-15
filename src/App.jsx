@@ -10,6 +10,7 @@ import { useCompareGame } from './hooks/useCompareGame';
 import { generateRandomGame } from './logic/generateRandomGame';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css'
+import { generateRandomColors } from './logic/generateRandomColors';
 
 const INITIAL_FEATURES_COLOR = {
   'hair': 'black',
@@ -20,6 +21,7 @@ const INITIAL_FEATURES_COLOR = {
 
 function App() {
   const [featuresColor, setFeaturesColor] = useState(INITIAL_FEATURES_COLOR);
+  const [currentRandomColorsList, setCurrentRandomColorsList] = useState(generateRandomColors());
   const [actualAttemp, setActualAttemp] = useState([0, 0, 0, 0]);
   const [gameAttemps, setGameAttemps] = useState(0);
   const [historyAttemps, setHistoryAttemps] = useState(new Array(MAX_ATTEMPS).fill(0));
@@ -49,13 +51,13 @@ function App() {
     actual[col] = row + 1;
     const colorActually = { ...featuresColor }
     if (col === 0) {
-      colorActually.hair = COLORS_LIST[row];
+      colorActually.hair = currentRandomColorsList[row];
     } else if (col === 1) {
-      colorActually.shirt = COLORS_LIST[row];
+      colorActually.shirt = currentRandomColorsList[row];
     } else if (col === 2) {
-      colorActually.legs = COLORS_LIST[row];
+      colorActually.legs = currentRandomColorsList[row];
     } else {
-      colorActually.shoes = COLORS_LIST[row];
+      colorActually.shoes = currentRandomColorsList[row];
     }
     setFeaturesColor(colorActually);
     setActualAttemp(actual);
@@ -107,6 +109,7 @@ function App() {
 
   const resetGame = () => {
     setFeaturesColor(INITIAL_FEATURES_COLOR);
+    setCurrentRandomColorsList(generateRandomColors());
     setGameAttemps(0);
     setGuessLeads(null);
     setActualAttemp([0, 0, 0, 0]);
@@ -119,7 +122,7 @@ function App() {
     <>
       <header>
         <div className='title-container'>
-          <h1><span className='title-one'>G    uess</span> <span className='title-two'>Who?</span></h1>
+          <h1><span className='title-one'>Guess</span> <span className='title-two'>Who?</span></h1>
         </div>
       </header>
       <main>
@@ -133,10 +136,10 @@ function App() {
             <button className='check-turn-btn' onClick={checkAttemp}>Check</button>
             <button className='reset-game-btn' onClick={(resetGame)}>Reset game</button>
           </section>
-          { finishGame === null ? <SelectionButtons handleButton={handle} rows={10} cols={4} /> : null }
+          { finishGame === null ? <SelectionButtons handleButton={handle} rows={10} cols={4} color_list={currentRandomColorsList}/> : null }
         </div>
         { finishGame === null ? <HistoryGame historical={historyAttemps} /> : null }
-        { finishGame === null ? null : <FinishGameModal finishGame={finishGame} correct={correctRandomArr} historical={historyAttemps} resetGame={resetGame} />}
+        { finishGame === null ? null : <FinishGameModal finishGame={finishGame} correct={correctRandomArr} historical={historyAttemps} colors_list={currentRandomColorsList} resetGame={resetGame} />}
         <ToastContainer
           position='bottom-center'
           autoClose={2000}

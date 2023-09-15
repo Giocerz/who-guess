@@ -4,7 +4,7 @@ import "./FinishGameModal.css"
 import { HistoryGame } from "../HistoryGame/HistoryGame";
 import { useEffect } from "react";
 
-export const FinishGameModal = ({ finishGame, correct, historical, resetGame }) => {
+export const FinishGameModal = ({ finishGame, correct, historical, colors_list, resetGame }) => {
     useEffect(() => {
         window.scrollTo({
             top: 0,
@@ -21,10 +21,10 @@ export const FinishGameModal = ({ finishGame, correct, historical, resetGame }) 
                 <div className="correct-character-container">
                     <Character 
                         colors={{
-                            hair: COLORS_LIST[correct[0] - 1],
-                            shirt: COLORS_LIST[correct[1] - 1],
-                            legs: COLORS_LIST[correct[2] - 1],
-                            shoes: COLORS_LIST[correct[3] - 1]
+                            hair: colors_list[correct[0] - 1],
+                            shirt: colors_list[correct[1] - 1],
+                            legs: colors_list[correct[2] - 1],
+                            shoes: colors_list[correct[3] - 1]
                         }} 
                         anim='no-anim' />
                 </div>
