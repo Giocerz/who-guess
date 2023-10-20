@@ -1,8 +1,2 @@
-# React + Vite
-
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
-
-Currently, two official plugins are available:
-
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+# Guess Who
+This project is a React-based character guessing game that challenges your deduction skills. Similar to games like Mastermind, it tasks you with guessing a hidden character by selecting the correct colors for various features. Built using React, it provides an interactive interface with features like character selection, a color palette, a guessing board, and a feedback system to help you make accurate guesses. 
