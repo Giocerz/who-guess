@@ -43,7 +43,7 @@
     margin-top: 60%;
     border-radius: 1000px;
     background-color: black;
-    animation: aumentar 8s infinite;
+    animation: aumentar 5s infinite;
     animation-delay: 2s;
  }
 
@@ -128,16 +128,6 @@
  .leg.left {
     margin-right: -13%;
  }
-
- /*
- .leg::before {
-   content: '';
-   width: 80%;
-   height: 30%;
-   background-color: white;
-   border-radius: 50%;
-   z-index: 7;
- } */
 
  .shoes {
     height: 8%;

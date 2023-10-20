@@ -5,12 +5,13 @@ import { SelectionButtons } from './Components/SelectionButtons/SelectionButtons
 import { ScoreBoard } from './Components/ScoreBoard/ScoreBoard';
 import { FinishGameModal } from './Components/FinishGameModal/FinishGameModal';
 import { HistoryGame } from './Components/HistoryGame/HistoryGame';
-import { COLORS_LIST, MAX_ATTEMPS } from './logic/constants';
+import { MAX_ATTEMPS } from './logic/constants';
 import { useCompareGame } from './hooks/useCompareGame';
 import { generateRandomGame } from './logic/generateRandomGame';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css'
 import { generateRandomColors } from './logic/generateRandomColors';
+import { saveGameToStorage, resetGameStorage } from './logic/storage';
 
 const INITIAL_FEATURES_COLOR = {
   'hair': 'black',
@@ -20,12 +21,37 @@ const INITIAL_FEATURES_COLOR = {
 };
 
 function App() {
-  const [featuresColor, setFeaturesColor] = useState(INITIAL_FEATURES_COLOR);
-  const [currentRandomColorsList, setCurrentRandomColorsList] = useState(generateRandomColors());
-  const [actualAttemp, setActualAttemp] = useState([0, 0, 0, 0]);
-  const [gameAttemps, setGameAttemps] = useState(0);
-  const [historyAttemps, setHistoryAttemps] = useState(new Array(MAX_ATTEMPS).fill(0));
-  const [correctRandomArr, setCorrectRandomArr] = useState(generateRandomGame());
+  const [featuresColor, setFeaturesColor] = useState(() => {
+    const featuresColorFromStorage = window.localStorage.getItem('featuresColor');
+    return featuresColorFromStorage ? JSON.parse(featuresColorFromStorage)
+      : INITIAL_FEATURES_COLOR;
+  });
+
+  const [currentRandomColorsList, setCurrentRandomColorsList] = useState(() => {
+    const currentRandomColorsListFromStorage = window.localStorage.getItem('currentRandomColorsList');
+    return currentRandomColorsListFromStorage ? JSON.parse(currentRandomColorsListFromStorage)
+      : generateRandomColors();
+  });
+  const [actualAttemp, setActualAttemp] = useState(() => {
+    const actualAttempFromStorage = window.localStorage.getItem('actualAttemp');
+    return actualAttempFromStorage ? JSON.parse(actualAttempFromStorage)
+      : [0, 0, 0, 0];
+  });
+  const [gameAttemps, setGameAttemps] = useState(() => {
+    const gameAttempsFromStorage = window.localStorage.getItem('gameAttemps');
+    return gameAttempsFromStorage ? parseInt(gameAttempsFromStorage)
+      : 0;
+  });
+  const [historyAttemps, setHistoryAttemps] = useState(() => {
+    const historyAttempsFromStorage = window.localStorage.getItem('historyAttemps');
+    return historyAttempsFromStorage ? JSON.parse(historyAttempsFromStorage)
+      : new Array(MAX_ATTEMPS).fill(0);
+  });
+  const [correctRandomArr, setCorrectRandomArr] = useState(() => {
+    const correctRandomArrFromStorage = window.localStorage.getItem('correctRandomArr');
+    return correctRandomArrFromStorage ? JSON.parse(correctRandomArrFromStorage)
+      : generateRandomGame();
+  });
   const { guessLeads, finishGame, setGuessLeads, setFinishGame } = useCompareGame(actualAttemp, gameAttemps, correctRandomArr);
 
   useEffect(() => {
@@ -43,10 +69,19 @@ function App() {
       }
       setHistoryAttemps(arrHistory);
 
+      saveGameToStorage({
+        featuresColor,
+        currentRandomColorsList,
+        actualAttemp,
+        gameAttemps,
+        historyAttemps,
+        correctRandomArr
+      });
+
     }
   }, [guessLeads])
 
-  const handle = (row, col) => {
+  const handleSelectionBtn = (row, col) => {
     const actual = [...actualAttemp];
     actual[col] = row + 1;
     const colorActually = { ...featuresColor }
@@ -85,7 +120,7 @@ function App() {
 
     if (repeatNumberInArray(actualAttemp)) {
       if (!toast.isActive('select_new_colors')) {
-        toast.warning("Don't repeat colors", { 
+        toast.warning("Don't repeat colors", {
           toastId: 'repeat_colors',
           icon: '🤬'
         });
@@ -93,18 +128,19 @@ function App() {
       return
     }
 
-    if(gameAttemps + 1 === MAX_ATTEMPS - 3) {
+    if (gameAttemps + 1 === MAX_ATTEMPS - 3) {
       toast.warning("Last 3 attempts", {
         icon: '😰'
       });
     }
-    if(gameAttemps + 1 === MAX_ATTEMPS - 1) {
+    if (gameAttemps + 1 === MAX_ATTEMPS - 1) {
       toast.warning("Last attempt", {
         icon: '😱'
       });
     }
 
     setGameAttemps(gameAttemps + 1)
+    console.log('Hola2');
   }
 
   const resetGame = () => {
@@ -116,6 +152,7 @@ function App() {
     setHistoryAttemps(new Array(MAX_ATTEMPS).fill(0));
     setCorrectRandomArr(generateRandomGame());
     setFinishGame(null);
+    resetGameStorage();
   }
 
   return (
@@ -136,10 +173,10 @@ function App() {
             <button className='check-turn-btn' onClick={checkAttemp}>Check</button>
             <button className='reset-game-btn' onClick={(resetGame)}>Reset game</button>
           </section>
-          { finishGame === null ? <SelectionButtons handleButton={handle} rows={10} cols={4} color_list={currentRandomColorsList}/> : null }
+          {finishGame === null ? <SelectionButtons handleButton={handleSelectionBtn} rows={10} cols={4} color_list={currentRandomColorsList} /> : null}
         </div>
-        { finishGame === null ? <HistoryGame historical={historyAttemps} /> : null }
-        { finishGame === null ? null : <FinishGameModal finishGame={finishGame} correct={correctRandomArr} historical={historyAttemps} colors_list={currentRandomColorsList} resetGame={resetGame} />}
+        {finishGame === null ? <HistoryGame historical={historyAttemps} /> : null}
+        {finishGame === null ? null : <FinishGameModal finishGame={finishGame} correct={correctRandomArr} historical={historyAttemps} colors_list={currentRandomColorsList} resetGame={resetGame} />}
         <ToastContainer
           position='bottom-center'
           autoClose={2000}

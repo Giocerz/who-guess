@@ -1,0 +1,26 @@
+export const saveGameToStorage= ({ 
+    featuresColor, 
+    currentRandomColorsList, 
+    actualAttemp, 
+    gameAttemps,
+    historyAttemps,
+    correctRandomArr
+}) => {
+    window.localStorage.setItem('featuresColor', JSON.stringify(featuresColor));
+    window.localStorage.setItem('currentRandomColorsList', JSON.stringify(currentRandomColorsList));
+    window.localStorage.setItem('actualAttemp', JSON.stringify(actualAttemp));
+    window.localStorage.setItem('historyAttemps', JSON.stringify(historyAttemps));
+    window.localStorage.setItem('correctRandomArr', JSON.stringify(correctRandomArr));
+    window.localStorage.setItem('featuresColor', JSON.stringify(featuresColor));
+    window.localStorage.setItem('gameAttemps', gameAttemps);
+}
+
+export const resetGameStorage = () => {
+    window.localStorage.removeItem('featuresColor');
+    window.localStorage.removeItem('currentRandomColorsList');
+    window.localStorage.removeItem('actualAttemp');
+    window.localStorage.removeItem('historyAttemps');
+    window.localStorage.removeItem('correctRandomArr');
+    window.localStorage.removeItem('featuresColor');
+    window.localStorage.removeItem('gameAttemps');
+}
